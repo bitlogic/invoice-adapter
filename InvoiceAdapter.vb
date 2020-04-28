@@ -5,6 +5,8 @@ Dim IVA As Single
 Dim RowNumberID As Integer
 Dim Neto As Single
 Dim IVA_Percent As Single
+Dim Num_Factura As String
+
 
 lastrow = Range("B" & Rows.Count).End(xlUp).Row
 
@@ -23,8 +25,17 @@ If Cells(i, 3).Value <> vbNullString Then
     End If
 
 Cells(i, 19).Value = Cells(i, 9).Value
-Cells(i, 9).Value = Cells(i + 1, 9).Value
 Cells(i, 8).Value = Cells(i + 1, 8).Value
+Num_Factura = Cells(i, 4).Value
+
+'if Bill Type is C or Cloud Service --> insert value in column "Exento" else inert in column "Neto"
+
+    If Left(Num_Factura, 1) = "C" Or Cells(i, 8) = "Cloud Services" Then
+    Cells(i, 13).Value = Cells(i, 9).Value
+    Else
+    Cells(i, 9).Value = Cells(i + 1, 9).Value
+    End If
+
 'Cells(i, 1).Value = Month(Cells(i, 2).Value)
 RowNumberID = i
 Neto = Cells(i, 9).Value
@@ -64,6 +75,16 @@ If Cells(i, 8).Value = "Percepciones Comercio e Industria Cba" Then Cells(RowNum
 If Cells(i, 8).Value = "Impuestos Internos" Then Cells(RowNumberID, 17).Value = Cells(i, 9).Value
 
 
-
 Next i
+
+
+
+
+End Sub
+
+
+
+
+
+
 
